@@ -1,0 +1,13 @@
+ctypes
+datetime
+json
+os
+subprocess
+webbrowser
+urllib
+cv2
+pyttsx3
+pywhatkit
+speech_recognition as sr
+winshell as winshell
+pywhatkit

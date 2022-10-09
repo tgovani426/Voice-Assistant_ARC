@@ -10,19 +10,19 @@ import pyttsx3
 import pywhatkit
 import speech_recognition as sr
 import winshell as winshell
+import pyjokes
+import randfacts
 
 listener = sr.Recognizer()
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
 
-
 def speak(text):
     engine.say(text)
     engine.runAndWait()
 
-
-def Greeting():
+def greeting():
     time = int(datetime.datetime.now().hour)
     if 0 <= time < 21:
         speak("Good morning Sir!!")
@@ -34,7 +34,6 @@ def Greeting():
     astname = "Arc 1 point 1"
     speak("I am your assistant")
     speak(astname)
-
 
 def takeCommand():
     listener = sr.Recognizer()
@@ -55,7 +54,6 @@ def takeCommand():
         print("Unable to Recognize your Voice.")
         return None
 
-
 def git_search(user_name):
     response = request.urlopen("https://api.github.com/users/" + user_name)
     data = json.loads(response.read())
@@ -70,12 +68,11 @@ def git_search(user_name):
     github_resource = [name, num_follower, num_following, repo, bio, github_url]
     return github_resource
 
-
 if __name__ == '__main__':
     clear = lambda: os.system('cls')
 
     clear()
-    Greeting()
+    greeting()
 
     while True:
         command = takeCommand().lower()
@@ -129,11 +126,11 @@ if __name__ == '__main__':
             speak("Kindly enter the user name")
             user = input("PLEASE ENTER THE USER NAME:\t")
             result = git_search(user)
-            speak(f"{result[0]} is a developer with {result[1]} followers and {result[2]} repository  ")
+            speak(f"{result[0]} is a developer with {result[1]} followers and {result[3]} repository  ")
             speak(f"Do you want to open account of {result[0]} ??")
             ans = takeCommand()
             if ans == "yes":
-                speak(f"Bio of {result[0]}")
+                speak(f"Account of {result[0]}")
                 webbrowser.open(url=f"{result[5]}")
 
         elif "news" in command:
@@ -174,3 +171,10 @@ if __name__ == '__main__':
             else:
                 print("No image detected. Please! try again")
 
+        elif 'joke' in command:
+            joke = pyjokes.get_joke()
+            speak(joke)
+
+        elif 'fact' in command:
+            facts = randfacts.get_fact()
+            speak(facts)
